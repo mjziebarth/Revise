@@ -1,0 +1,74 @@
+% Yet another package to mark changes in a paper revision.
+%
+% Copyright (C) 2020 Malte Ziebarth
+%
+%% This program can be redistributed and/or modified under the terms
+%% of the LaTeX Project Public License Distributed from CTAN archives
+%
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{revise}[2020/05/04 v0.01 Revisions package]
+
+% Required packages:
+\RequirePackage{mdframed}
+
+% Define the shading color:
+\definecolor{shadecolor}{RGB}{240,240,240}
+
+% Create the counter and the file:
+\newcounter{changes}
+\newwrite\changesfile
+\immediate\openout\changesfile=\jobname.changes.tex
+
+% Write the "preamble" to the file:
+\immediate\write\changesfile{\detokenize{\let\oldsection\section}}
+\immediate\write\changesfile{\detokenize{\let\oldsubsection\subsection}}
+\immediate\write\changesfile{\detokenize{\renewcommand{\section}}[1]{\detokenize{\vspace{\baselineskip}\noindent\textbf}{\detokenize{\Large}Section "\string#1"\detokenize{\vspace{0.3\baselineskip}\newline\noindent\hspace{-4pt}}}}}
+\immediate\write\changesfile{\detokenize{\renewcommand{\subsection}}[1]{\detokenize{\vspace{\baselineskip}\noindent\textbf}{Subsection "\string#1"\detokenize{\vspace{0.2\baselineskip}\newline\noindent\hspace{-4pt}}}}}
+\immediate\write\changesfile{\detokenize{\par\newpage\noindent\obeylines\textbf{\LARGE List of Changes}\\}}
+
+% New commands.
+%
+% 1) The list of changes command:
+\newcommand{\listofchanges}{%
+	\immediate\closeout\changesfile
+	% Turn off line numbering:
+	\ifdefined\linenumbers
+	\begin{nolinenumbers}
+	\fi
+	% Do a pagebreak and insert the changes file:
+	\newpage
+	\input{\jobname.changes}
+	% Turn line numbering to previous state:
+	\ifdefined\linenumbers
+	\end{nolinenumbers}
+	\fi
+}
+
+% 2) The replaced command:
+\newcommand{\replaced}[2]{%
+	\refstepcounter{changes}%
+	\immediate\write\changesfile{\detokenize{\noindent\textbf}{\thechanges. Page \thepage\ replace:}\detokenize{\vspace{-\baselineskip}}}%
+	\immediate\write\changesfile{\detokenize{\noindent}{\detokenize{\begin{mdframed}[hidealllines=true,backgroundcolor=shadecolor]#1\end{mdframed}}}}%
+	\immediate\write\changesfile{\detokenize{\begin{center}-- by --\end{center}\vspace{-1.5\baselineskip}}}%
+	\immediate\write\changesfile{\detokenize{\noindent}{\detokenize{\begin{mdframed}[hidealllines=true,backgroundcolor=shadecolor]#2\end{mdframed}}}}%
+	\immediate\write\changesfile{}%
+	\begingroup\color{orange}#2\endgroup%
+}
+
+% 3) The added command:
+\newcommand{\added}[1]{%
+	\refstepcounter{changes}%
+	\immediate\write\changesfile{\detokenize{\noindent\textbf}{\thechanges. Page \thepage\ added:}}%
+	\immediate\write\changesfile{\detokenize{\begin{mdframed}[hidealllines=true,backgroundcolor=shadecolor]#1\end{mdframed}}}%
+	\immediate\write\changesfile{}%
+	\begingroup\color{orange}#1\endgroup%
+}
+
+% 4) The deleted command:
+\newcommand{\deleted}[1]{%
+	\refstepcounter{changes}%
+	\immediate\write\changesfile{\detokenize{\noindent\textbf}{\thechanges. Page \thepage\ deleted:}}%
+	\immediate\write\changesfile{\detokenize{\begin{mdframed}[hidealllines=true,backgroundcolor=shadecolor]#1\end{mdframed}}}
+	\immediate\write\changesfile{}%
+	\begingroup\color{orange}[\ldots]\endgroup%
+}
