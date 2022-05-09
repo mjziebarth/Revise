@@ -14,6 +14,7 @@
 
 % Define the shading color:
 \definecolor{shadecolor}{RGB}{240,240,240}
+\definecolor{revisedtextcolor}{RGB}{255,128,0}
 
 % Create the counter and the file:
 \newcounter{changes}
@@ -64,7 +65,7 @@
 	\immediate\write\changesfile{\detokenize{\begin{center}-- by --\end{center}\vspace{-1.5\baselineskip}}}%
 	\immediate\write\changesfile{\detokenize{\noindent}{\detokenize{\begin{mdframed}[hidealllines=true,backgroundcolor=shadecolor]#2\end{mdframed}}}}%
 	\immediate\write\changesfile{}%
-	\begingroup\color{orange}#2\endgroup%
+	\begingroup\color{revisedtextcolor}#2\endgroup%
 \fi%
 }
 
@@ -78,7 +79,7 @@
 	\immediate\write\changesfile{\detokenize{\begin{center}-- by --\end{center}\vspace{-1.5\baselineskip}}}%
 	\immediate\write\changesfile{\detokenize{\noindent}{\detokenize{\begin{mdframed}[hidealllines=true,backgroundcolor=shadecolor]#2\end{mdframed}}}}%
 	\immediate\write\changesfile{}%
-	\begingroup\color{orange}#2\endgroup%
+	\begingroup\color{revisedtextcolor}#2\endgroup%
 \fi%
 }
 
@@ -91,7 +92,7 @@
 	\immediate\write\changesfile{\detokenize{\noindent\textbf}{\thechanges. Page \thepage\ added:}}%
 	\immediate\write\changesfile{\detokenize{\begin{mdframed}[hidealllines=true,backgroundcolor=shadecolor]#1\end{mdframed}}}%
 	\immediate\write\changesfile{}%
-	\begingroup\color{orange}#1\endgroup%
+	\begingroup\color{revisedtextcolor}#1\endgroup%
 \fi%
 }
 
@@ -103,7 +104,7 @@
 	\immediate\write\changesfile{\detokenize{\noindent\textbf}{\thechanges. Page \thepage\ added:}}%
 	\immediate\write\changesfile{\detokenize{\begin{mdframed}[hidealllines=true,backgroundcolor=shadecolor]#1\end{mdframed}}}%
 	\immediate\write\changesfile{}%
-	\begingroup\color{orange}#1\endgroup%
+	\begingroup\color{revisedtextcolor}#1\endgroup%
 \fi%
 }
 
@@ -116,7 +117,7 @@
 	\immediate\write\changesfile{\detokenize{\noindent\textbf}{\thechanges. Page \thepage\ deleted:}}%
 	\immediate\write\changesfile{\detokenize{\begin{mdframed}[hidealllines=true,backgroundcolor=shadecolor]#1\end{mdframed}}}
 	\immediate\write\changesfile{}%
-	\begingroup\color{orange}[\ldots]\endgroup%
+	\begingroup\color{revisedtextcolor}[\ldots]\endgroup%
 \fi%
 }
 
@@ -128,7 +129,7 @@
 	\immediate\write\changesfile{\detokenize{\noindent\textbf}{\thechanges. Page \thepage\ deleted:}}%
 	\immediate\write\changesfile{\detokenize{\begin{mdframed}[hidealllines=true,backgroundcolor=shadecolor]#1\end{mdframed}}}
 	\immediate\write\changesfile{}%
-	\begingroup\color{orange}[\ldots]\endgroup%
+	\begingroup\color{revisedtextcolor}[\ldots]\endgroup%
 \fi%
 }
 
